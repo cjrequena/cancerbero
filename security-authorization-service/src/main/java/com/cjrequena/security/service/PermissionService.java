@@ -4,7 +4,7 @@ import com.cjrequena.security.exception.service.PermissionNotFoundServiceExcepti
 import com.cjrequena.security.exception.service.ServiceException;
 import com.cjrequena.security.model.dto.PermissionDTO;
 import com.cjrequena.security.model.entity.PermissionEntity;
-import com.cjrequena.security.model.mapper.Mapper;
+import com.cjrequena.security.model.mapper.ApplicationMapper;
 import com.cjrequena.security.repository.PermissionRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -24,12 +24,12 @@ import java.util.stream.Collectors;
 public class PermissionService {
 
   private final PermissionRepository permissionRepository;
-  private final Mapper mapper;
+  private final ApplicationMapper applicationMapper;
 
   public PermissionDTO create(PermissionDTO permissionDTO) {
-    PermissionEntity permissionEntity = this.mapper.toEntity(permissionDTO);
+    PermissionEntity permissionEntity = this.applicationMapper.toEntity(permissionDTO);
     permissionRepository.save(permissionEntity);
-    return this.mapper.toDTO(permissionEntity);
+    return this.applicationMapper.toDTO(permissionEntity);
   }
 
   public PermissionDTO retrieveByPermissionId(Long permissionId) throws PermissionNotFoundServiceException {
@@ -37,7 +37,7 @@ public class PermissionService {
     if (!optional.isPresent()) {
       throw new PermissionNotFoundServiceException("Permission Not Found");
     }
-    return mapper.toDTO(optional.get());
+    return applicationMapper.toDTO(optional.get());
   }
 
   public PermissionDTO retrieveByPermissionName(String permissionName) throws PermissionNotFoundServiceException {
@@ -45,24 +45,24 @@ public class PermissionService {
     if (!optional.isPresent()) {
       throw new PermissionNotFoundServiceException("Permission Not Found");
     }
-    return mapper.toDTO(optional.get());
+    return applicationMapper.toDTO(optional.get());
   }
 
   public List<PermissionDTO> retrieve() {
     List<PermissionEntity> entities = this.permissionRepository.findAll();
     return entities
       .stream()
-      .map(this.mapper::toDTO)
+      .map(this.applicationMapper::toDTO)
       .collect(Collectors.toList());
   }
 
   public PermissionDTO update(PermissionDTO permissionDTO) throws PermissionNotFoundServiceException {
     Optional<PermissionEntity> optional = permissionRepository.findById(permissionDTO.getPermissionId());
     if (optional.isPresent()) {
-      PermissionEntity entity = this.mapper.toEntity(permissionDTO);
+      PermissionEntity entity = this.applicationMapper.toEntity(permissionDTO);
       this.permissionRepository.saveAndFlush(entity);
       log.debug("Updated permission with id {}", entity.getPermissionId());
-      return this.mapper.toDTO(entity);
+      return this.applicationMapper.toDTO(entity);
     } else {
       throw new PermissionNotFoundServiceException("The permission " + permissionDTO.getPermissionId() + " was not Found");
     }

@@ -6,6 +6,7 @@ import com.cjrequena.security.model.dto.UserDTO;
 import com.cjrequena.security.model.entity.PermissionEntity;
 import com.cjrequena.security.model.entity.RoleEntity;
 import com.cjrequena.security.model.entity.UserEntity;
+import org.mapstruct.Mapper;
 import org.mapstruct.NullValueCheckStrategy;
 
 /**
@@ -15,11 +16,11 @@ import org.mapstruct.NullValueCheckStrategy;
  * <p>
  * @author cjrequena
  */
-@org.mapstruct.Mapper(
+@Mapper(
   componentModel = "spring",
   nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS
 )
-public interface Mapper {
+public interface ApplicationMapper {
 
   UserEntity toEntity(UserDTO dto);
 

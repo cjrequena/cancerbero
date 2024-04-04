@@ -4,7 +4,7 @@ import com.cjrequena.security.exception.service.RoleNotFoundServiceException;
 import com.cjrequena.security.exception.service.ServiceException;
 import com.cjrequena.security.model.dto.RoleDTO;
 import com.cjrequena.security.model.entity.RoleEntity;
-import com.cjrequena.security.model.mapper.Mapper;
+import com.cjrequena.security.model.mapper.ApplicationMapper;
 import com.cjrequena.security.repository.RoleRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -24,12 +24,12 @@ import java.util.stream.Collectors;
 public class RoleService {
 
     private final RoleRepository roleRepository;
-    private final Mapper mapper;
+    private final ApplicationMapper applicationMapper;
 
     public RoleDTO create(RoleDTO roleDTO) {
-        RoleEntity roleEntity = this.mapper.toEntity(roleDTO);
+        RoleEntity roleEntity = this.applicationMapper.toEntity(roleDTO);
         roleRepository.save(roleEntity);
-        return this.mapper.toDTO(roleEntity);
+        return this.applicationMapper.toDTO(roleEntity);
     }
 
     public RoleDTO retrieveByRoleId(Long roleId) throws RoleNotFoundServiceException {
@@ -37,7 +37,7 @@ public class RoleService {
         if (!optional.isPresent()) {
             throw new RoleNotFoundServiceException("Role Not Found");
         }
-        return mapper.toDTO(optional.get());
+        return applicationMapper.toDTO(optional.get());
     }
 
     public RoleDTO retrieveByRoleName(String roleName) throws RoleNotFoundServiceException {
@@ -45,24 +45,24 @@ public class RoleService {
         if (!optional.isPresent()) {
             throw new RoleNotFoundServiceException("Role Not Found");
         }
-        return mapper.toDTO(optional.get());
+        return applicationMapper.toDTO(optional.get());
     }
 
     public List<RoleDTO> retrieve() {
         List<RoleEntity> entities = this.roleRepository.findAll();
         return entities
           .stream()
-          .map(this.mapper::toDTO)
+          .map(this.applicationMapper::toDTO)
           .collect(Collectors.toList());
     }
 
     public RoleDTO update(RoleDTO roleDTO) throws RoleNotFoundServiceException {
         Optional<RoleEntity> optional = roleRepository.findById(roleDTO.getRoleId());
         if (optional.isPresent()) {
-            RoleEntity entity = this.mapper.toEntity(roleDTO);
+            RoleEntity entity = this.applicationMapper.toEntity(roleDTO);
             this.roleRepository.saveAndFlush(entity);
             log.debug("Updated role with id {}", entity.getRoleId());
-            return this.mapper.toDTO(entity);
+            return this.applicationMapper.toDTO(entity);
         } else {
             throw new RoleNotFoundServiceException("The role " + roleDTO.getRoleId() + " was not Found");
         }
