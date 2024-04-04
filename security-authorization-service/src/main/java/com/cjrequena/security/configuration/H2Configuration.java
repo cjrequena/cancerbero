@@ -54,7 +54,7 @@ public class H2Configuration {
   public LocalContainerEntityManagerFactoryBean entityManagerFactoryH2(EntityManagerFactoryBuilder builder, @Qualifier("dataSourceH2") DataSource dataSource) {
     return builder
       .dataSource(dataSource)
-      .packages("com.cjrequena.security.entity")
+      .packages("com.cjrequena.security.model.entity")
       .persistenceUnit("chinook")
       .build();
   }
