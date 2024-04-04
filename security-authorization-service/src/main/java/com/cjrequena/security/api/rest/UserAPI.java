@@ -30,7 +30,7 @@ public class UserAPI {
     @GetMapping("/{userId}")
     public ResponseEntity<UserDTO> retrieveById(@PathVariable Long userId) {
         try {
-            UserDTO user = userService.retrieveById(userId);
+            UserDTO user = userService.retrieveByUserId(userId);
             return ResponseEntity.ok(user);
         } catch (UserNotFoundServiceException e) {
             return ResponseEntity.notFound().build();
