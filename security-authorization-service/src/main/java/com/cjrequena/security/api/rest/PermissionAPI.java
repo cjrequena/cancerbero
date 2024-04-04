@@ -28,7 +28,7 @@ public class PermissionAPI {
     }
 
     @GetMapping("/{permissionId}")
-    public ResponseEntity<PermissionDTO> retrieveById(@PathVariable Long permissionId) {
+    public ResponseEntity<PermissionDTO> retrieveByPermissionId(@PathVariable Long permissionId) {
         try {
             PermissionDTO permission = permissionService.retrieveByPermissionId(permissionId);
             return ResponseEntity.ok(permission);

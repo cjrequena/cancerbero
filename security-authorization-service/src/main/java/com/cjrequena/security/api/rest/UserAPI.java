@@ -28,7 +28,7 @@ public class UserAPI {
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<UserDTO> retrieveById(@PathVariable Long userId) {
+    public ResponseEntity<UserDTO> retrieveByUserId(@PathVariable Long userId) {
         try {
             UserDTO user = userService.retrieveByUserId(userId);
             return ResponseEntity.ok(user);

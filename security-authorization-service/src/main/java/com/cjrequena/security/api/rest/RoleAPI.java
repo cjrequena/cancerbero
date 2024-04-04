@@ -28,7 +28,7 @@ public class RoleAPI {
     }
 
     @GetMapping("/{roleId}")
-    public ResponseEntity<RoleDTO> retrieveById(@PathVariable Long roleId) {
+    public ResponseEntity<RoleDTO> retrieveByRoleId(@PathVariable Long roleId) {
         try {
             RoleDTO role = roleService.retrieveByRoleId(roleId);
             return ResponseEntity.ok(role);
@@ -46,7 +46,7 @@ public class RoleAPI {
             return ResponseEntity.notFound().build();
         }
     }
-    
+
     @GetMapping
     public ResponseEntity<List<RoleDTO>> retrieve() {
         List<RoleDTO> roles = roleService.retrieve();
