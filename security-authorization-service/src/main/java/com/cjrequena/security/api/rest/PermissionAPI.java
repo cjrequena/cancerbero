@@ -10,9 +10,16 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.cjrequena.security.api.rest.PermissionAPI.ENDPOINT;
+import static com.cjrequena.security.api.rest.UserAPI.ACCEPT_VERSION;
+import static com.cjrequena.security.common.Constants.HEADER_VND_SECURITY_AUTHORIZATION_SERVICE_V1;
+
 @RestController
-@RequestMapping("/api/permissions")
+@RequestMapping(value = ENDPOINT, headers = {ACCEPT_VERSION})
 public class PermissionAPI {
+
+    public static final String ENDPOINT = "/api/permissions";
+    public static final String ACCEPT_VERSION = "Accept-Version=" + HEADER_VND_SECURITY_AUTHORIZATION_SERVICE_V1;
 
     private final PermissionService permissionService;
 

@@ -3,6 +3,7 @@ package com.cjrequena.security.api.rest;
 import com.cjrequena.security.exception.service.UserNotFoundServiceException;
 import com.cjrequena.security.model.dto.UserDTO;
 import com.cjrequena.security.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,9 +11,16 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.cjrequena.security.api.rest.UserAPI.ACCEPT_VERSION;
+import static com.cjrequena.security.common.Constants.HEADER_VND_SECURITY_AUTHORIZATION_SERVICE_V1;
+
+@Slf4j
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping(value = UserAPI.ENDPOINT, headers = {ACCEPT_VERSION})
 public class UserAPI {
+
+    public static final String ENDPOINT = "/api/users";
+    public static final String ACCEPT_VERSION = "Accept-Version=" + HEADER_VND_SECURITY_AUTHORIZATION_SERVICE_V1;
 
     private final UserService userService;
 
