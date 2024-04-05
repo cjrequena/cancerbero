@@ -12,7 +12,7 @@ import java.util.List;
 
 import static com.cjrequena.security.api.rest.RoleAPI.ENDPOINT;
 import static com.cjrequena.security.api.rest.UserAPI.ACCEPT_VERSION;
-import static com.cjrequena.security.common.Constants.HEADER_VND_SECURITY_AUTH_SERVICE_V1;
+import static com.cjrequena.security.common.Constants.HEADER_VND_SECURITY_AUTHORIZATION_SERVICE_V1;
 
 @RestController
 @RequestMapping(value = ENDPOINT, headers = {ACCEPT_VERSION})
@@ -20,7 +20,7 @@ import static com.cjrequena.security.common.Constants.HEADER_VND_SECURITY_AUTH_S
 public class RoleAPI {
 
     public static final String ENDPOINT = "/api/roles";
-    public static final String ACCEPT_VERSION = "Accept-Version=" + HEADER_VND_SECURITY_AUTH_SERVICE_V1;
+    public static final String ACCEPT_VERSION = "Accept-Version=" + HEADER_VND_SECURITY_AUTHORIZATION_SERVICE_V1;
 
     private final RoleService roleService;
 
