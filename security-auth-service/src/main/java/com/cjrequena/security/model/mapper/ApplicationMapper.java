@@ -16,10 +16,7 @@ import org.mapstruct.NullValueCheckStrategy;
  * <p>
  * @author cjrequena
  */
-@Mapper(
-  componentModel = "spring",
-  nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS
-)
+@Mapper(componentModel = "spring")
 public interface ApplicationMapper {
 
   UserEntity toEntity(UserDTO dto);
