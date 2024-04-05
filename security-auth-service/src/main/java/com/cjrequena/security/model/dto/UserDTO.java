@@ -20,7 +20,7 @@ import java.util.Set;
   "creation_date",
   "update_date"
 })
-@JsonTypeName("foo")
+@JsonTypeName("user")
 //@Schema(name = "User", description = "User")
 public class UserDTO {
 

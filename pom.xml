@@ -26,7 +26,7 @@
         <!-- https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-ui -->
         <springdoc.version>2.5.0</springdoc.version>
         <!-- https://mvnrepository.com/artifact/org.mapstruct/mapstruct -->
-        <mapstruct.version>1.5.5.Final</mapstruct.version>
+        <org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
         <!-- https://mvnrepository.com/artifact/org.apache.johnzon/johnzon-core -->
         <johnzon-core.version>2.0.1</johnzon-core.version>
         <!-- https://mvnrepository.com/artifact/jakarta.json/jakarta.json-api/2.1.1 -->
