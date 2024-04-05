@@ -31,7 +31,7 @@
         <jakarta.json-api.version>2.1.3</jakarta.json-api.version>
     </properties>
     <modules>
-        <module>security-authorization-service</module>
+        <module>security-auth-service</module>
     </modules>
     <dependencies>
         <dependency>
