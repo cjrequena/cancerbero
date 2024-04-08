@@ -53,15 +53,15 @@ public class UserDTO {
   @Getter(onMethod = @__({@JsonProperty("active")}))
   private boolean active;
 
-  @JsonProperty(value = "roles", required = true)
+  @JsonProperty(value = "roles")
   @Getter(onMethod = @__({@JsonProperty("roles")}))
   private Set<RoleDTO> roles;
 
-  @JsonProperty(value = "creation_date", required = true)
+  @JsonProperty(value = "creation_date")
   @Getter(onMethod = @__({@JsonProperty("creation_date")}))
   private Date creationDate;
 
-  @JsonProperty(value = "update_date", required = true)
+  @JsonProperty(value = "update_date")
   @Getter(onMethod = @__({@JsonProperty("update_date")}))
   private Date updateDate;
 
