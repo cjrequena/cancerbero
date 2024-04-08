@@ -17,6 +17,7 @@ import java.util.Set;
   "password",
   "email",
   "active",
+  "roles",
   "creation_date",
   "update_date"
 })

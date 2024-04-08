@@ -45,3 +45,48 @@ CREATE TABLE T_ROLE_PERMISSION (
     FOREIGN KEY (role_id) REFERENCES T_ROLE(role_id),
     FOREIGN KEY (permission_id) REFERENCES T_PERMISSION(permission_id)
 );
+
+-- Inserting users
+INSERT INTO T_USER (user_name, password, email) VALUES
+('admin', '$2a$12$BvuRpES5el2HOX0pZt.k1Oenr/B7uIexOwwYgWXxGhSjW64J07AMS', 'admin@example.com'), --admin_password
+('app_user', '$2a$12$RkvGkDeqeglaAurhWDby/umxhgHJ25VkYH7Xe61UZc6SbvVEJeb3i', 'user@example.com'), --user_password
+('app_tester', '$2a$12$yMu.ZOQekXbllapC0l7npeAC3uMqvxhSLsyR1hBguKT2k8XCBJIte', 'tester@example.com'); --tester_password
+
+-- Inserting roles
+INSERT INTO T_ROLE (role_name, description) VALUES
+('admin', 'Administrator role'),
+('user', 'Regular user role'),
+('tester', 'Tester role');
+
+-- Inserting permissions
+INSERT INTO T_PERMISSION (permission_name, description) VALUES
+('create_permission', 'Permission to create'),
+('read_permission', 'Permission to read'),
+('update_permission', 'Permission to update'),
+('ROLE_admin', 'Administrator permission wildcard');
+
+-- Assigning roles to users
+INSERT INTO T_USER_ROLE (user_id, role_id) VALUES
+(1, 1), -- admin_user gets admin role
+(2, 2), -- app_user gets user role
+(3, 3); -- app_tester gets tester role
+
+-- Assigning permissions to roles
+-- admin permissions
+INSERT INTO T_ROLE_PERMISSION (role_id, permission_id) VALUES
+(1, 1), -- admin has create_permission
+(1, 2), -- admin has read_permission
+(1, 3), -- admin has update_permission
+(1, 4); -- admin_user has wildcard ROLE_admin permission
+
+
+-- user permissions
+INSERT INTO T_ROLE_PERMISSION (role_id, permission_id) VALUES
+(2, 2), -- user has read_permission
+(2, 3); -- user has update_permission
+
+-- tester permissions
+INSERT INTO T_ROLE_PERMISSION (role_id, permission_id) VALUES
+(3, 1), -- tester has create_permission
+(3, 2); -- tester has read_permission
+
