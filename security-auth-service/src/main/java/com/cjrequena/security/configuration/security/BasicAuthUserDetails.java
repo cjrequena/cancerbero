@@ -11,7 +11,7 @@ import java.util.Set;
 
 @Getter
 @Builder
-public class AccessTokenPrincipalUserDetails implements UserDetails {
+public class BasicAuthUserDetails implements UserDetails {
 
   private final Long userId;
   private final String userName;

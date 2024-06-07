@@ -22,7 +22,7 @@ import static org.springframework.boot.autoconfigure.security.servlet.PathReques
 public class SecurityConfiguration {
 
   //private final JWTApplicationPrincipalAuthenticationFilter jwtApplicationPrincipalAuthenticationFilter;
-  private final AccessTokenPrincipalUserDetailsService accessTokenPrincipalUserDetailsService;
+  private final BasicAuthUserDetailsService basicAuthUserDetailsService;
 
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -45,8 +45,8 @@ public class SecurityConfiguration {
   }
 
   @Bean
-  public AccessTokenPrincipalUserDetailsService accessTokenPrincipalUserDetails() {
-    return this.accessTokenPrincipalUserDetailsService;
+  public BasicAuthUserDetailsService accessTokenPrincipalUserDetails() {
+    return this.basicAuthUserDetailsService;
   }
 
   @Bean

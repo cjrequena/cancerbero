@@ -1,7 +1,7 @@
 package com.cjrequena.security.api.auth;
 
 
-import com.cjrequena.security.configuration.security.AccessTokenPrincipalUserDetails;
+import com.cjrequena.security.configuration.security.BasicAuthUserDetails;
 import com.cjrequena.security.configuration.security.JWTComponent;
 import com.cjrequena.security.model.dto.AuthAccessTokenDTO;
 import com.cjrequena.security.service.AuthAccessTokenService;
@@ -37,10 +37,10 @@ public class AuthAccessTokenAPI {
     //path = "/auth/token",
     produces = {APPLICATION_JSON_VALUE}
   )
-  public ResponseEntity<AuthAccessTokenDTO> accessToken(@AuthenticationPrincipal AccessTokenPrincipalUserDetails accessTokenPrincipalUserDetails) {
+  public ResponseEntity<AuthAccessTokenDTO> accessToken(@AuthenticationPrincipal BasicAuthUserDetails basicAuthUserDetails) {
     HttpHeaders responseHeaders = new HttpHeaders();
     responseHeaders.set(CACHE_CONTROL, "no store, private, max-age=0");
-    AuthAccessTokenDTO authAccessTokenDTO = authAccessTokenService.generateAccessToken(accessTokenPrincipalUserDetails);
+    AuthAccessTokenDTO authAccessTokenDTO = authAccessTokenService.generateAccessToken(basicAuthUserDetails);
     return new ResponseEntity<>(authAccessTokenDTO, responseHeaders, HttpStatus.OK);
   }
 

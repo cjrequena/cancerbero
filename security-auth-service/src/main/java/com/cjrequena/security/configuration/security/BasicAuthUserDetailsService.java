@@ -19,16 +19,16 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class AccessTokenPrincipalUserDetailsService implements UserDetailsService {
+public class BasicAuthUserDetailsService implements UserDetailsService {
 
   private final UserService userService;
 
   @Override
-  public AccessTokenPrincipalUserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
+  public BasicAuthUserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
     Optional<UserEntity> userEntityOptional = null;
     try {
       UserDTO userDTO = userService.retrieveByUserName(userName);
-      return AccessTokenPrincipalUserDetails.builder()
+      return BasicAuthUserDetails.builder()
         .userId(userDTO.getUserId())
         .userName(userDTO.getUserName())
         .email(userDTO.getEmail())
