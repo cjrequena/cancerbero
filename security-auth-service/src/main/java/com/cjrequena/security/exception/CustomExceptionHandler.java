@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -36,6 +37,18 @@ public class CustomExceptionHandler {
     ErrorDTO errorDTO = new ErrorDTO();
     errorDTO.setDate(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DATE_TIME_FORMAT)));
     errorDTO.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+    errorDTO.setErrorCode(ex.getClass().getSimpleName());
+    errorDTO.setMessage(ex.getMessage());
+    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDTO);
+  }
+
+  @ExceptionHandler({AccessDeniedException.class})
+  @ResponseStatus(value = HttpStatus.FORBIDDEN)
+  public ResponseEntity<Object> unhandledAccessDeniedException(AccessDeniedException ex) {
+    log.error(EXCEPTION_LOG, ex.getMessage(), ex);
+    ErrorDTO errorDTO = new ErrorDTO();
+    errorDTO.setDate(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DATE_TIME_FORMAT)));
+    errorDTO.setStatus(HttpStatus.FORBIDDEN.value());
     errorDTO.setErrorCode(ex.getClass().getSimpleName());
     errorDTO.setMessage(ex.getMessage());
     return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDTO);

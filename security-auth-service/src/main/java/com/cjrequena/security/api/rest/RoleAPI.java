@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.cjrequena.security.api.rest.RoleAPI.ACCEPT_VERSION;
 import static com.cjrequena.security.api.rest.RoleAPI.ENDPOINT;
-import static com.cjrequena.security.api.rest.UserAPI.ACCEPT_VERSION;
 import static com.cjrequena.security.common.Constants.HEADER_VND_SECURITY_AUTHORIZATION_SERVICE_V1;
 
 @RestController
@@ -19,7 +19,7 @@ import static com.cjrequena.security.common.Constants.HEADER_VND_SECURITY_AUTHOR
 
 public class RoleAPI {
 
-    public static final String ENDPOINT = "/api/roles";
+    public static final String ENDPOINT = "/api/rbac/roles";
     public static final String ACCEPT_VERSION = "Accept-Version=" + HEADER_VND_SECURITY_AUTHORIZATION_SERVICE_V1;
 
     private final RoleService roleService;

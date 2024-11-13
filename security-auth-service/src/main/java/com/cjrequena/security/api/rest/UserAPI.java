@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,9 +18,10 @@ import static com.cjrequena.security.common.Constants.HEADER_VND_SECURITY_AUTHOR
 @Slf4j
 @RestController
 @RequestMapping(value = UserAPI.ENDPOINT, headers = {ACCEPT_VERSION})
+//@Secured({"ROLE_ADMIN", "ROLE_USER"})
 public class UserAPI {
 
-    public static final String ENDPOINT = "/api/users";
+    public static final String ENDPOINT = "/api/rbac/users";
     public static final String ACCEPT_VERSION = "Accept-Version=" + HEADER_VND_SECURITY_AUTHORIZATION_SERVICE_V1;
 
     private final UserService userService;
@@ -29,12 +31,15 @@ public class UserAPI {
         this.userService = userService;
     }
 
+    @PreAuthorize("hasAuthority('create_user')")
     @PostMapping
     public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) {
         UserDTO createdUser = userService.create(userDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
     }
 
+
+    @PreAuthorize("hasAuthority('read_user')")
     @GetMapping("/{userId}")
     public ResponseEntity<UserDTO> retrieveByUserId(@PathVariable Long userId) {
         try {
@@ -45,6 +50,7 @@ public class UserAPI {
         }
     }
 
+    @PreAuthorize("hasAuthority('read_user')")
     @GetMapping("/by-username/{userName}")
     public ResponseEntity<UserDTO> retrieveByUserName(@PathVariable String userName) {
         try {
@@ -55,6 +61,7 @@ public class UserAPI {
         }
     }
 
+    @PreAuthorize("hasAuthority('read_user')")
     @GetMapping("/by-email/{email}")
     public ResponseEntity<UserDTO> retrieveByEmail(@PathVariable String email) {
         try {
@@ -65,12 +72,14 @@ public class UserAPI {
         }
     }
 
+    @PreAuthorize("hasAuthority('read_user')")
     @GetMapping
     public ResponseEntity<List<UserDTO>> retrieve() {
         List<UserDTO> users = userService.retrieve();
         return ResponseEntity.ok(users);
     }
 
+    @PreAuthorize("hasAuthority('update_user')")
     @PutMapping("/{userId}")
     public ResponseEntity<UserDTO> update(@PathVariable Long userId, @RequestBody UserDTO userDTO) {
         userDTO.setUserId(userId);

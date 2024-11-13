@@ -34,7 +34,7 @@ public class UserService {
 
   public UserDTO retrieveByUserId(Long userId) throws UserNotFoundServiceException {
     Optional<UserEntity> optional = this.userRepository.findById(userId);
-    if (!optional.isPresent()) {
+    if (optional.isEmpty()) {
       throw new UserNotFoundServiceException("User Not Found");
     }
     return applicationMapper.toDTO(optional.get());

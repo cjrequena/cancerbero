@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -18,6 +19,7 @@ import static org.springframework.boot.autoconfigure.security.servlet.PathReques
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
 @RequiredArgsConstructor
 public class SecurityConfiguration {
 
@@ -32,13 +34,13 @@ public class SecurityConfiguration {
       .formLogin(AbstractHttpConfigurer::disable)
       .logout(AbstractHttpConfigurer::disable)
       .httpBasic(Customizer.withDefaults())
-      //.addFilterBefore(jwtApplicationPrincipalAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-      //.securityMatcher("/foo-service/**")
       .authorizeHttpRequests(registry -> {
         registry.requestMatchers(toH2Console()).permitAll();
-        registry.requestMatchers("/api/users/**").hasRole("admin");
-        //registry.requestMatchers("/api/users/**").hasAnyAuthority( "create_permission", "read_permission", "update_permission");
-        //registry.requestMatchers("/api/users").permitAll();
+        // registry.requestMatchers("/api/rbac/users/**").hasAnyAuthority("create_user", "read_user", "update_user");
+        // registry.requestMatchers("/api/rbac/permissions/**").hasAnyAuthority("create_permission", "read_permission", "update_permission");
+        // registry.requestMatchers("/api/rbac/roles/**").hasAnyAuthority("create_role", "read_role", "update_role");
+        registry.requestMatchers("/api/rbac/admin/**").hasRole("ADMIN");
+        registry.requestMatchers("/api/rbac/public/**").permitAll();
         registry.anyRequest().authenticated();
       })
       .build();
