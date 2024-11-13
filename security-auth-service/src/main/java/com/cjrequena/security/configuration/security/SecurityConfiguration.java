@@ -45,14 +45,9 @@ public class SecurityConfiguration {
   }
 
   @Bean
-  public BasicAuthUserDetailsService accessTokenPrincipalUserDetails() {
-    return this.basicAuthUserDetailsService;
-  }
-
-  @Bean
   public AuthenticationProvider authenticationProvider() {
     DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-    provider.setUserDetailsService(accessTokenPrincipalUserDetails());
+    provider.setUserDetailsService(this.basicAuthUserDetailsService);
     provider.setPasswordEncoder(passwordEncoder());
     return provider;
   }
