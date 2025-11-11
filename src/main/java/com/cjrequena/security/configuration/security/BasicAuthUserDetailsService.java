@@ -1,10 +1,10 @@
 package com.cjrequena.security.configuration.security;
 
-import com.cjrequena.security.exception.service.UserNotFoundServiceException;
-import com.cjrequena.security.model.dto.PermissionDTO;
-import com.cjrequena.security.model.dto.RoleDTO;
-import com.cjrequena.security.model.dto.UserDTO;
-import com.cjrequena.security.model.entity.UserEntity;
+import com.cjrequena.security.controller.dto.PermissionDTO;
+import com.cjrequena.security.controller.dto.RoleDTO;
+import com.cjrequena.security.controller.dto.UserDTO;
+import com.cjrequena.security.domain.exception.UserNotFoundException;
+import com.cjrequena.security.persistence.entity.UserEntity;
 import com.cjrequena.security.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +36,7 @@ public class BasicAuthUserDetailsService implements UserDetailsService {
         .roles(getRoles(userDTO))
         .authorities(getAuthorities(userDTO))
         .build();
-    } catch (UserNotFoundServiceException e) {
+    } catch (UserNotFoundException e) {
       throw new UsernameNotFoundException(userName);
     }
   }

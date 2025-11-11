@@ -1,11 +1,11 @@
 package com.cjrequena.security.service;
 
-import com.cjrequena.security.exception.service.ServiceException;
-import com.cjrequena.security.exception.service.UserNotFoundServiceException;
-import com.cjrequena.security.model.dto.UserDTO;
-import com.cjrequena.security.model.entity.UserEntity;
-import com.cjrequena.security.model.mapper.ApplicationMapper;
-import com.cjrequena.security.repository.UserRepository;
+import com.cjrequena.security.controller.dto.UserDTO;
+import com.cjrequena.security.domain.exception.DomainException;
+import com.cjrequena.security.domain.exception.UserNotFoundException;
+import com.cjrequena.security.domain.mapper.ApplicationMapper;
+import com.cjrequena.security.persistence.entity.UserEntity;
+import com.cjrequena.security.persistence.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 
 @Log4j2
 @Service
-@Transactional(propagation = Propagation.REQUIRED, rollbackFor = ServiceException.class)
+@Transactional(propagation = Propagation.REQUIRED, rollbackFor = DomainException.class)
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class UserService {
 
@@ -32,26 +32,26 @@ public class UserService {
     return this.applicationMapper.toDTO(userEntity);
   }
 
-  public UserDTO retrieveByUserId(Long userId) throws UserNotFoundServiceException {
+  public UserDTO retrieveByUserId(Long userId) throws UserNotFoundException {
     Optional<UserEntity> optional = this.userRepository.findById(userId);
     if (optional.isEmpty()) {
-      throw new UserNotFoundServiceException("User Not Found");
+      throw new UserNotFoundException("User Not Found");
     }
     return applicationMapper.toDTO(optional.get());
   }
 
-  public UserDTO retrieveByUserName(String userName) throws UserNotFoundServiceException {
+  public UserDTO retrieveByUserName(String userName) throws UserNotFoundException {
     Optional<UserEntity> optional = this.userRepository.findByUserName(userName);
     if (!optional.isPresent()) {
-      throw new UserNotFoundServiceException("User Not Found");
+      throw new UserNotFoundException("User Not Found");
     }
     return applicationMapper.toDTO(optional.get());
   }
 
-  public UserDTO retrieveByEmail(String email) throws UserNotFoundServiceException {
+  public UserDTO retrieveByEmail(String email) throws UserNotFoundException {
     Optional<UserEntity> optional = this.userRepository.findByEmail(email);
     if (!optional.isPresent()) {
-      throw new UserNotFoundServiceException("User Not Found");
+      throw new UserNotFoundException("User Not Found");
     }
     return applicationMapper.toDTO(optional.get());
   }
@@ -64,7 +64,7 @@ public class UserService {
       .collect(Collectors.toList());
   }
 
-  public UserDTO update(UserDTO userDTO) throws UserNotFoundServiceException {
+  public UserDTO update(UserDTO userDTO) throws UserNotFoundException {
     Optional<UserEntity> optional = userRepository.findById(userDTO.getUserId());
     if (optional.isPresent()) {
       UserEntity entity = this.applicationMapper.toEntity(userDTO);
@@ -72,7 +72,7 @@ public class UserService {
       log.debug("Updated user with id {}", entity.getUserId());
       return this.applicationMapper.toDTO(entity);
     } else {
-      throw new UserNotFoundServiceException("The user " + userDTO.getUserId() + " was not Found");
+      throw new UserNotFoundException("The user " + userDTO.getUserId() + " was not Found");
     }
   }
 
@@ -84,7 +84,7 @@ public class UserService {
 //    return null;
 //  }
 
-  public void delete(Long userId) throws UserNotFoundServiceException {
+  public void delete(Long userId) throws UserNotFoundException {
     Optional<UserEntity> optional = this.userRepository.findById(userId);
     optional.ifPresent(
       entity -> {
@@ -92,7 +92,7 @@ public class UserService {
         log.debug("Deleted User: {}", entity);
       }
     );
-    optional.orElseThrow(() -> new UserNotFoundServiceException("User Not Found"));
+    optional.orElseThrow(() -> new UserNotFoundException("User Not Found"));
   }
 
   // Add other service methods as needed

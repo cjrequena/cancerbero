@@ -1,11 +1,11 @@
 package com.cjrequena.security.service;
 
-import com.cjrequena.security.exception.service.PermissionNotFoundServiceException;
-import com.cjrequena.security.exception.service.ServiceException;
-import com.cjrequena.security.model.dto.PermissionDTO;
-import com.cjrequena.security.model.entity.PermissionEntity;
-import com.cjrequena.security.model.mapper.ApplicationMapper;
-import com.cjrequena.security.repository.PermissionRepository;
+import com.cjrequena.security.controller.dto.PermissionDTO;
+import com.cjrequena.security.domain.exception.DomainException;
+import com.cjrequena.security.domain.exception.PermissionNotFoundException;
+import com.cjrequena.security.domain.mapper.ApplicationMapper;
+import com.cjrequena.security.persistence.entity.PermissionEntity;
+import com.cjrequena.security.persistence.repository.PermissionRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 
 @Log4j2
 @Service
-@Transactional(propagation = Propagation.REQUIRED, rollbackFor = ServiceException.class)
+@Transactional(propagation = Propagation.REQUIRED, rollbackFor = DomainException.class)
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class PermissionService {
 
@@ -32,18 +32,18 @@ public class PermissionService {
     return this.applicationMapper.toDTO(permissionEntity);
   }
 
-  public PermissionDTO retrieveByPermissionId(Long permissionId) throws PermissionNotFoundServiceException {
+  public PermissionDTO retrieveByPermissionId(Long permissionId) throws PermissionNotFoundException {
     Optional<PermissionEntity> optional = this.permissionRepository.findById(permissionId);
     if (!optional.isPresent()) {
-      throw new PermissionNotFoundServiceException("Permission Not Found");
+      throw new PermissionNotFoundException("Permission Not Found");
     }
     return applicationMapper.toDTO(optional.get());
   }
 
-  public PermissionDTO retrieveByPermissionName(String permissionName) throws PermissionNotFoundServiceException {
+  public PermissionDTO retrieveByPermissionName(String permissionName) throws PermissionNotFoundException {
     Optional<PermissionEntity> optional = this.permissionRepository.findByPermissionName(permissionName);
     if (!optional.isPresent()) {
-      throw new PermissionNotFoundServiceException("Permission Not Found");
+      throw new PermissionNotFoundException("Permission Not Found");
     }
     return applicationMapper.toDTO(optional.get());
   }
@@ -56,7 +56,7 @@ public class PermissionService {
       .collect(Collectors.toList());
   }
 
-  public PermissionDTO update(PermissionDTO permissionDTO) throws PermissionNotFoundServiceException {
+  public PermissionDTO update(PermissionDTO permissionDTO) throws PermissionNotFoundException {
     Optional<PermissionEntity> optional = permissionRepository.findById(permissionDTO.getPermissionId());
     if (optional.isPresent()) {
       PermissionEntity entity = this.applicationMapper.toEntity(permissionDTO);
@@ -64,7 +64,7 @@ public class PermissionService {
       log.debug("Updated permission with id {}", entity.getPermissionId());
       return this.applicationMapper.toDTO(entity);
     } else {
-      throw new PermissionNotFoundServiceException("The permission " + permissionDTO.getPermissionId() + " was not Found");
+      throw new PermissionNotFoundException("The permission " + permissionDTO.getPermissionId() + " was not Found");
     }
   }
 
@@ -76,7 +76,7 @@ public class PermissionService {
   //    return null;
   //  }
 
-  public void delete(Long permissionId) throws PermissionNotFoundServiceException {
+  public void delete(Long permissionId) throws PermissionNotFoundException {
     Optional<PermissionEntity> optional = this.permissionRepository.findById(permissionId);
     optional.ifPresent(
       entity -> {
@@ -84,7 +84,7 @@ public class PermissionService {
         log.debug("Deleted Permission: {}", entity);
       }
     );
-    optional.orElseThrow(() -> new PermissionNotFoundServiceException("Permission Not Found"));
+    optional.orElseThrow(() -> new PermissionNotFoundException("Permission Not Found"));
   }
 
   // Add other service methods as needed
