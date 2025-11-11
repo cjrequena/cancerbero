@@ -39,8 +39,8 @@ public class SecurityConfiguration {
         // registry.requestMatchers("/api/rbac/users/**").hasAnyAuthority("create_user", "read_user", "update_user");
         // registry.requestMatchers("/api/rbac/permissions/**").hasAnyAuthority("create_permission", "read_permission", "update_permission");
         // registry.requestMatchers("/api/rbac/roles/**").hasAnyAuthority("create_role", "read_role", "update_role");
-        registry.requestMatchers("/api/rbac/admin/**").hasRole("ADMIN");
-        registry.requestMatchers("/api/rbac/public/**").permitAll();
+        registry.requestMatchers("/api/admin/**").hasRole("ADMIN");
+        registry.requestMatchers("/api/public/**").permitAll();
         registry.anyRequest().authenticated();
       })
       .build();
