@@ -1,10 +1,9 @@
 package com.cjrequena.security.controller.auth;
 
-
 import com.cjrequena.security.configuration.security.BasicAuthUserDetails;
-import com.cjrequena.security.shared.common.util.JwtUtil;
 import com.cjrequena.security.controller.dto.AuthAccessTokenDTO;
 import com.cjrequena.security.service.AuthAccessTokenService;
+import com.cjrequena.security.shared.common.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

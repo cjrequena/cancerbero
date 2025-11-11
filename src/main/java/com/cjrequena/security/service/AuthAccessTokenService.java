@@ -2,8 +2,8 @@ package com.cjrequena.security.service;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.cjrequena.security.configuration.security.BasicAuthUserDetails;
-import com.cjrequena.security.shared.common.util.JwtUtil;
 import com.cjrequena.security.controller.dto.AuthAccessTokenDTO;
+import com.cjrequena.security.shared.common.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
