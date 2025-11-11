@@ -2,7 +2,7 @@ package com.cjrequena.security.controller.auth;
 
 
 import com.cjrequena.security.configuration.security.BasicAuthUserDetails;
-import com.cjrequena.security.configuration.security.JWTComponent;
+import com.cjrequena.security.shared.common.util.JwtUtil;
 import com.cjrequena.security.controller.dto.AuthAccessTokenDTO;
 import com.cjrequena.security.service.AuthAccessTokenService;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +28,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public class AuthAccessTokenController {
 
   private final AuthAccessTokenService authAccessTokenService;
-  private final JWTComponent jwtComponent;
+  private final JwtUtil jwtUtil;
 
   public static final String ENDPOINT = "/api/auth/token";
   public static final String ACCEPT_VERSION = "Accept-Version=" + HEADER_VND_SECURITY_AUTHORIZATION_SERVICE_V1;
@@ -51,6 +51,6 @@ public class AuthAccessTokenController {
   public ResponseEntity<Boolean> accessToken(@RequestBody AuthAccessTokenDTO authAccessTokenDTO) {
     HttpHeaders responseHeaders = new HttpHeaders();
     responseHeaders.set(CACHE_CONTROL, "no store, private, max-age=0");
-    return new ResponseEntity<>(this.jwtComponent.verify(authAccessTokenDTO.getAccessToken()), responseHeaders, HttpStatus.OK);
+    return new ResponseEntity<>(this.jwtUtil.verify(authAccessTokenDTO.getAccessToken()), responseHeaders, HttpStatus.OK);
   }
 }
