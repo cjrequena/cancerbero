@@ -15,17 +15,17 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class AuthAccessTokenService {
 
-  private final JwtUtil jwtUtil;
+
 
   public AuthAccessTokenDTO generateAccessToken(BasicAuthUserDetails basicAuthUserDetails) {
     String userName = basicAuthUserDetails.getUsername();
     Map<String, Object> claims = new HashMap<>();
-    claims.put(jwtUtil.CLAIM_USER_ID, basicAuthUserDetails.getUserId());
-    claims.put(jwtUtil.CLAIM_USER_NAME, basicAuthUserDetails.getUsername());
-    claims.put(jwtUtil.CLAIM_EMAIL, basicAuthUserDetails.getEmail());
-    claims.put(jwtUtil.CLAIM_ROLES, basicAuthUserDetails.getRoles().stream().toList());
-    claims.put(jwtUtil.CLAIM_AUTHORITIES, basicAuthUserDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList());
-    DecodedJWT decodedJWT = jwtUtil.decode(jwtUtil.create(userName, claims));
+    claims.put(JwtUtil.CLAIM_USER_ID, basicAuthUserDetails.getUserId());
+    claims.put(JwtUtil.CLAIM_USER_NAME, basicAuthUserDetails.getUsername());
+    claims.put(JwtUtil.CLAIM_EMAIL, basicAuthUserDetails.getEmail());
+    claims.put(JwtUtil.CLAIM_ROLES, basicAuthUserDetails.getRoles().stream().toList());
+    claims.put(JwtUtil.CLAIM_AUTHORITIES, basicAuthUserDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList());
+    DecodedJWT decodedJWT = JwtUtil.decode(JwtUtil.create(userName, claims));
 
     AuthAccessTokenDTO authAccessTokenDTO = new AuthAccessTokenDTO();
     authAccessTokenDTO.setTokenType("Bearer");

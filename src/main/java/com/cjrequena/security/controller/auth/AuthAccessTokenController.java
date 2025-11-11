@@ -26,11 +26,10 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class AuthAccessTokenController {
 
-  private final AuthAccessTokenService authAccessTokenService;
-  private final JwtUtil jwtUtil;
-
   public static final String ENDPOINT = "/api/auth/token";
   public static final String ACCEPT_VERSION = "Accept-Version=" + HEADER_VND_SECURITY_AUTHORIZATION_SERVICE_V1;
+
+  private final AuthAccessTokenService authAccessTokenService;
 
   @PostMapping(
     //path = "/auth/token",
@@ -50,6 +49,6 @@ public class AuthAccessTokenController {
   public ResponseEntity<Boolean> accessToken(@RequestBody AuthAccessTokenDTO authAccessTokenDTO) {
     HttpHeaders responseHeaders = new HttpHeaders();
     responseHeaders.set(CACHE_CONTROL, "no store, private, max-age=0");
-    return new ResponseEntity<>(this.jwtUtil.verify(authAccessTokenDTO.getAccessToken()), responseHeaders, HttpStatus.OK);
+    return new ResponseEntity<>(JwtUtil.verify(authAccessTokenDTO.getAccessToken()), responseHeaders, HttpStatus.OK);
   }
 }
